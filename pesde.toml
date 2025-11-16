@@ -1,0 +1,20 @@
+name = "jsdotluau/polyfill"
+version = "0.1.0"
+description = "Polyfill from TypeScriptToLua"
+authors = ["EwDev (https://ewdev.net/)"]
+repository = "https://github.com/jsdotluau/polyfill"
+license = "MIT"
+private = true
+
+[engines]
+pesde = "^0.7.1"
+lune = "^0.10.4"
+
+[target]
+environment = "lune"
+
+[scripts]
+build = ".lune/build.luau"
+
+[indices]
+default = "https://github.com/pesde-pkg/index"
