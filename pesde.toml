@@ -1,11 +1,15 @@
 authors = ["EwDev (https://ewdev.net/)"]
 description = "Polyfills from TypeScriptToLua"
-includes = ["src/**/*", "pesde.toml", "LICENSE"]
+includes = [
+    "src/**/*",
+    "pesde.toml",
+    "LICENSE",
+]
 license = "MIT"
 name = "jsdotluau/tstl_polyfill_lune"
 private = true
 repository = "https://github.com/jsdotluau/polyfill"
-version = "1.33.0"
+version = "1.33.0-pr.1"
 workspace_members = ["dist/*"]
 
 [dependencies.pathfs]
