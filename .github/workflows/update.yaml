@@ -55,4 +55,4 @@ jobs:
           default_author: github_actions
 
       - name: Publish package(s)
-        run: pesde publish
+        run: pesde publish --yes
