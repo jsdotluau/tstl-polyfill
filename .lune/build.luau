@@ -148,6 +148,7 @@ for polyfill, info in moduleInfo do
 
 		target = {
 			environment = "luau",
+			lib = sourceFile.path:fileName(),
 		},
 
 		indices = {
