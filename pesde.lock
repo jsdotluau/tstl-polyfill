@@ -5,9 +5,6 @@ name = "jsdotluau/tstl_polyfill_lune"
 version = "1.33.0"
 target = "lune"
 
-[workspace."jsdotluau/tstl_polyfill"]
-luau = "dist/polyfill"
-
 [graph."jiwonz/greentea_luau@0.2.0 luau".pkg_ref]
 ref_ty = "pesde"
 index_url = "https://github.com/pesde-pkg/index"

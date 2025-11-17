@@ -39,13 +39,13 @@ jobs:
           pesde_token: ${{ secrets.PESDE_TOKEN || github.token }}
       
       - name: Update submodules
-        runs: pesde run updateSubmodules
+        run: pesde run updateSubmodules
 
       - name: Install TypeScriptToLua
-        runs: pesde run install
+        run: pesde run install
 
       - name: Build
-        runs: pesde run build
+        run: pesde run build
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
@@ -54,4 +54,4 @@ jobs:
           default_author: github_actions
       
       - name: Publish package(s)
-        runs: pesde publish
+        run: pesde publish
