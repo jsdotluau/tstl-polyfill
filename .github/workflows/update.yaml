@@ -34,6 +34,11 @@ jobs:
         with:
           pesde_token: ${{ secrets.PESDE_TOKEN || github.token }}
 
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
       - name: Update submodules
         run: pesde run updateSubmodules
 
@@ -41,7 +46,7 @@ jobs:
         run: pesde run install
 
       - name: Build
-        run: pesde run build
+        run: pesde run build --bundle
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
