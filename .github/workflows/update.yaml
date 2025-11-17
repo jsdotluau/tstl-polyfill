@@ -1,7 +1,6 @@
 name: Update polyfills
 
 permissions:
-  pull-requests: write
   contents: write
 
 on:
@@ -17,9 +16,6 @@ concurrency:
 defaults:
   run:
     shell: bash
-
-permissions:
-  contents: write
 
 jobs:
   update-polyfills:
@@ -37,7 +33,7 @@ jobs:
         uses: ewd3v/setup-pesde@v0.1.1
         with:
           pesde_token: ${{ secrets.PESDE_TOKEN || github.token }}
-      
+
       - name: Update submodules
         run: pesde run updateSubmodules
 
@@ -52,6 +48,6 @@ jobs:
         with:
           message: "sync upstream"
           default_author: github_actions
-      
+
       - name: Publish package(s)
         run: pesde publish
