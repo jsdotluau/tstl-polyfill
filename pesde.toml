@@ -1,28 +1,32 @@
-name = "jsdotluau/tstl_polyfill_lune"
-version = "0.1.0"
-description = "Polyfills from TypeScriptToLua"
 authors = ["EwDev (https://ewdev.net/)"]
-repository = "https://github.com/jsdotluau/polyfill"
+description = "Polyfills from TypeScriptToLua"
+includes = [
+    "src/**/*",
+    "pesde.toml",
+    "LICENSE",
+]
 license = "MIT"
-includes = ["src/**/*", "pesde.toml", "LICENSE"]
+name = "jsdotluau/tstl_polyfill_lune"
 private = true
-
+repository = "https://github.com/jsdotluau/polyfill"
+version = "1.33.0"
 workspace_members = ["dist/*"]
 
+[dependencies.pathfs]
+name = "jiwonz/pathfs"
+version = "^0.6.0"
+
 [engines]
-pesde = "^0.7.1"
 lune = "^0.10.4"
-
-[target]
-environment = "lune"
-lib = "src/init.luau"
-
-[scripts]
-install = ".lune/install.luau"
-build = ".lune/build.luau"
+pesde = "^0.7.1"
 
 [indices]
 default = "https://github.com/pesde-pkg/index"
 
-[dependencies]
-pathfs = { name = "jiwonz/pathfs", version = "^0.6.0" }
+[scripts]
+build = ".lune/build.luau"
+install = ".lune/install.luau"
+
+[target]
+environment = "lune"
+lib = "src/init.luau"

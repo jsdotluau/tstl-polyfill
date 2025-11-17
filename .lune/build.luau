@@ -11,15 +11,24 @@ if not table.find(process.args, "--skip-build") then
 	})
 end
 
-local packageToml = pathfs.FilePath.fromExisting("pesde.toml")
-local package = serde.decode("toml", packageToml:readFile())
+local packageFile = pathfs.FilePath.fromExisting("pesde.toml")
+local package = serde.decode("toml", packageFile:readFile())
 
 local scope = string.split(package.name, "/")[1]
 
 local dist = pathfs.DirectoryPath.new("dist")
-local polyfills = pathfs.Path.from("TypeScriptToLua"):join("dist"):join("lualib"):join("universal")
+
+local tstlPath = pathfs.Path.from("TypeScriptToLua")
+local tstlPackageFile = pathfs.FilePath.fromExisting(tstlPath:join("package.json"))
+local tstlPackage = serde.decode("json", tstlPackageFile:readFile())
+
+local polyfills = tstlPath:join("dist"):join("lualib"):join("universal")
 local polyfillModules = pathfs.FilePath.fromExisting(polyfills:join("lualib_module_info.json"))
 --pathfs.FilePath.new(pathfs.Path.new("src"):join("polyfills.json")):writeFile(polyfillModules:readFile())
+
+if not table.find(process.args, "--keep-version") then
+	package.version = tstlPackage.version
+end
 
 type Polyfill = string
 type Dependencies = { Polyfill }
@@ -105,7 +114,7 @@ local function getPolyfillSource(polyfill: Polyfill, info: PolyfillInfo): string
 	return source
 end
 
-if table.find(process.args, "--bundled") then
+if table.find(process.args, "--bundle") then
 	local exports: Exports = {}
 	for _, info in moduleInfo do
 		for _, export in ipairs(info.exports) do
@@ -151,6 +160,7 @@ for polyfill, info in moduleInfo do
 	sourceFile:writeFile(getPolyfillSource(polyfill, info))
 end
 
+packageFile:writeFile(serde.encode("toml", package, true))
 if not table.find(process.args, "--skip-install") then
 	process.exec("pesde", { "install" }, {
 		shell = true,
