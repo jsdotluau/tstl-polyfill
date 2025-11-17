@@ -71,7 +71,7 @@ local function getPolyfillPackageDepdendencies(polyfill: Polyfill, info: Polyfil
 	return result
 end
 
-local function getPolyfillSource(polyfill: Polyfill, info: PolyfillInfo): string
+local function getPolyfillSource(polyfill: Polyfill, info: PolyfillInfo, runtime: string): string
 	if polyfill == "polyfill" then
 		polyfill = "lualib_bundle"
 	end
@@ -93,7 +93,10 @@ local function getPolyfillSource(polyfill: Polyfill, info: PolyfillInfo): string
 						continue
 					end
 
-					table.insert(depdendencies, `local {export} = require("./luau_packages/{dependency}").{export}`)
+					table.insert(
+						depdendencies,
+						`local {export} = require("./{runtime}_packages/{dependency}").{export}`
+					)
 				end
 			end
 
@@ -131,34 +134,36 @@ if table.find(process.args, "--bundle") then
 	}
 end
 
-for polyfill, info in moduleInfo do
-	local dir = pathfs.DirectoryPath.new(dist.path:join(polyfill)):withDirWritten()
-	local pesdeConfig = pathfs.FilePath.new(dir.path:join("pesde.toml"))
-	local sourceFile = pathfs.FilePath.new(dir.path:join(`{polyfill}.luau`))
+for _, runtime in { "luau", "roblox" } do
+	for polyfill, info in moduleInfo do
+		local dir = pathfs.DirectoryPath.new(dist.path:join(`{runtime}_{polyfill}`)):withDirWritten()
+		local pesdeConfig = pathfs.FilePath.new(dir.path:join("pesde.toml"))
+		local sourceFile = pathfs.FilePath.new(dir.path:join(`{polyfill}.luau`))
 
-	pesdeConfig:writeFile(serde.encode("toml", {
-		name = getPolyfillPackageName(polyfill),
-		version = package.version,
-		description = if polyfill == "polyfill"
-			then "Polyfills from TypeScriptToLua"
-			else `{polyfill} polyfill from TypeScriptToLua`,
-		repository = package.repository,
-		license = package.license,
-		includes = { pesdeConfig.path:fileName(), sourceFile.path:fileName() },
+		pesdeConfig:writeFile(serde.encode("toml", {
+			name = getPolyfillPackageName(polyfill),
+			version = package.version,
+			description = if polyfill == "polyfill"
+				then "Polyfills from TypeScriptToLua"
+				else `{polyfill} polyfill from TypeScriptToLua`,
+			repository = package.repository,
+			license = package.license,
+			includes = { pesdeConfig.path:fileName(), sourceFile.path:fileName() },
 
-		target = {
-			environment = "luau",
-			lib = sourceFile.path:fileName(),
-		},
+			target = {
+				environment = runtime,
+				lib = sourceFile.path:fileName(),
+			},
 
-		indices = {
-			default = "https://github.com/pesde-pkg/index",
-		},
+			indices = {
+				default = "https://github.com/pesde-pkg/index",
+			},
 
-		dependencies = getPolyfillPackageDepdendencies(polyfill, info),
-	}, true))
+			dependencies = getPolyfillPackageDepdendencies(polyfill, info),
+		}, true))
 
-	sourceFile:writeFile(getPolyfillSource(polyfill, info))
+		sourceFile:writeFile(getPolyfillSource(polyfill, info, runtime))
+	end
 end
 
 packageFile:writeFile(serde.encode("toml", package, true))

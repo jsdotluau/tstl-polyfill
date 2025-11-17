@@ -6,7 +6,8 @@ version = "1.33.0-rc.1"
 target = "lune"
 
 [workspace."jsdotluau/tstl_polyfill"]
-luau = "dist/polyfill"
+roblox = "dist/roblox_polyfill"
+luau = "dist/luau_polyfill"
 
 [graph."jiwonz/greentea_luau@0.2.0 luau".pkg_ref]
 ref_ty = "pesde"
