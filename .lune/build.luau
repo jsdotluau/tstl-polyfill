@@ -27,7 +27,7 @@ local polyfillModules = pathfs.FilePath.fromExisting(polyfills:join("lualib_modu
 --pathfs.FilePath.new(pathfs.Path.new("src"):join("polyfills.json")):writeFile(polyfillModules:readFile())
 
 if not table.find(process.args, "--keep-version") then
-	package.version = tstlPackage.version
+	package.version = tstlPackage.version .. "-pr.1"
 end
 
 type Polyfill = string

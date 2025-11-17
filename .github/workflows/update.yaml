@@ -1,0 +1,57 @@
+name: Update polyfills
+
+permissions:
+  pull-requests: write
+  contents: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs at 00:10 UTC every day
+    - cron: "10 0 * * *"
+
+concurrency:
+  # Ensure this workflow does not run twice at the same time
+  group: ${{ github.workflow }}
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: write
+
+jobs:
+  update-polyfills:
+    name: Update polyfills
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          submodules: true
+
+      - name: Setup pesde
+        uses: ewd3v/setup-pesde@v0.1.1
+        with:
+          pesde_token: ${{ secrets.PESDE_TOKEN || github.token }}
+      
+      - name: Update submodules
+        runs: pesde run updateSubmodules
+
+      - name: Install TypeScriptToLua
+        runs: pesde run install
+
+      - name: Build
+        runs: pesde run build
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "sync upstream"
+          default_author: github_actions
+      
+      - name: Publish package(s)
+        runs: pesde publish
