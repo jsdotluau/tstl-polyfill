@@ -1,4 +1,4 @@
-name = "jsdotluau/polyfill_lune"
+name = "jsdotluau/tstl_polyfill_lune"
 version = "0.1.0"
 description = "Polyfills from TypeScriptToLua"
 authors = ["EwDev (https://ewdev.net/)"]

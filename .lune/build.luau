@@ -40,7 +40,7 @@ end
 dist:writeDir()
 
 local function getPolyfillPackageName(polyfill: Polyfill): string
-	return `{scope}/{string.lower(polyfill)}`
+	return `{scope}/tstl_{string.lower(polyfill)}`
 end
 
 type PackageDependency = { workspace: string, version: "=" }
