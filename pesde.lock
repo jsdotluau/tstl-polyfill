@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 format = 2
 name = "jsdotluau/tstl_polyfill_lune"
-version = "1.33.0-rc.1"
+version = "1.33.0-rc.2"
 target = "lune"
 
 [workspace."jsdotluau/tstl_polyfill"]
