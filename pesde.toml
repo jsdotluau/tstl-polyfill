@@ -1,5 +1,5 @@
 authors = ["EwDev (https://ewdev.net/)"]
-description = "Polyfills from TypeScriptToLua"
+description = "Polyfills for TypeScriptToLua"
 includes = [
     "src/**/*",
     "pesde.toml",

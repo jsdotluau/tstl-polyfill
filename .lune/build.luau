@@ -27,7 +27,7 @@ local polyfillModules = pathfs.FilePath.fromExisting(polyfills:join("lualib_modu
 --pathfs.FilePath.new(pathfs.Path.new("src"):join("polyfills.json")):writeFile(polyfillModules:readFile())
 
 if not table.find(process.args, "--keep-version") then
-	package.version = tstlPackage.version .. "-rc.2"
+	package.version = tstlPackage.version .. "-rc.3"
 end
 
 type Polyfill = string
@@ -144,8 +144,8 @@ for _, runtime in { "luau", "lune", "roblox" } do
 			name = getPolyfillPackageName(polyfill),
 			version = package.version,
 			description = if polyfill == "polyfill"
-				then "Polyfills from TypeScriptToLua"
-				else `{polyfill} polyfill from TypeScriptToLua`,
+				then "Polyfills for TypeScriptToLua"
+				else `{polyfill} polyfill for TypeScriptToLua`,
 			repository = package.repository,
 			license = package.license,
 			includes = { pesdeConfig.path:fileName(), sourceFile.path:fileName() },
