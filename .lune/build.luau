@@ -153,6 +153,7 @@ for _, runtime in { "luau", "roblox" } do
 			target = {
 				environment = runtime,
 				lib = sourceFile.path:fileName(),
+				build_files = { sourceFile.path:fileName() },
 			},
 
 			indices = {
