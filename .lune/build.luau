@@ -70,37 +70,37 @@ local function getPolyfillSource(polyfill: Polyfill, info: PolyfillInfo): string
 	local sourceFile = polyfills:join(polyfill):withExtension("lua")
 	local source = pathfs.FilePath.fromExisting(sourceFile):readFile()
 
-	if polyfill == "lualib_bundle" then
-		return "--!nocheck\n" .. source
-	end
-
-	if info.dependencies then
-		local depdendencies: { string } = {}
-		for _, dependency in info.dependencies do
-			if dependency == polyfill then
-				continue
-			end
-
-			local dependencyInfo = moduleInfo[dependency]
-			for _, export in ipairs(dependencyInfo.exports) do
-				if not string.find(source, export) then
+	if polyfill ~= "lualib_bundle" then
+		if info.dependencies then
+			local depdendencies: { string } = {}
+			for _, dependency in info.dependencies do
+				if dependency == polyfill then
 					continue
 				end
 
-				table.insert(depdendencies, `local {export} = require("./luau_packages/{dependency}").{export}`)
+				local dependencyInfo = moduleInfo[dependency]
+				for _, export in ipairs(dependencyInfo.exports) do
+					if not string.find(source, export) then
+						continue
+					end
+
+					table.insert(depdendencies, `local {export} = require("./luau_packages/{dependency}").{export}`)
+				end
 			end
+
+			source = `{table.concat(depdendencies, "\n")}\n\n` .. source
 		end
 
-		source = `{table.concat(depdendencies, "\n")}\n\n` .. source
+		local exports: { string } = {}
+		for _, export in info.exports do
+			table.insert(exports, `\t{export} = {export}`)
+		end
+
+		source = source .. `\nreturn \{\n{table.concat(exports, ",\n")}\n}\n`
 	end
 
-	local exports: { string } = {}
-	for _, export in info.exports do
-		table.insert(exports, `\t{export} = {export}`)
-	end
-
-	source = source .. `\nreturn \{\n{table.concat(exports, ",\n")}\n}\n`
 	source = "--!nocheck\n" .. source
+	source = string.gsub(source, "_G%.", "")
 
 	return source
 end
