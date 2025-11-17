@@ -8,7 +8,7 @@ includes = [
 license = "MIT"
 name = "jsdotluau/tstl_polyfill_lune"
 private = true
-repository = "https://github.com/jsdotluau/polyfill"
+repository = "https://github.com/jsdotluau/tstl_polyfill"
 version = "1.33.0-rc.2"
 workspace_members = ["dist/*"]
 
