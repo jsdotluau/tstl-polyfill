@@ -25,8 +25,8 @@ default = "https://github.com/pesde-pkg/index"
 
 [scripts]
 build = ".lune/build.luau"
+fetchUpstream = ".lune/fetchUpstream.luau"
 install = ".lune/install.luau"
-updateSubmodules = ".lune/updateSubmodules.luau"
 
 [target]
 environment = "lune"

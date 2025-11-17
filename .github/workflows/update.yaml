@@ -39,8 +39,8 @@ jobs:
         with:
           node-version: 24
 
-      - name: Update submodules
-        run: pesde run updateSubmodules
+      - name: Fetch upstream
+        run: pesde run fetchUpstream
 
       - name: Install TypeScriptToLua
         run: pesde run install
