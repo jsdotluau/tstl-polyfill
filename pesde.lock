@@ -2,8 +2,11 @@
 # It is not intended for manual editing.
 format = 2
 name = "jsdotluau/tstl_polyfill_lune"
-version = "1.33.0"
+version = "1.33.0-pr.1"
 target = "lune"
+
+[workspace."jsdotluau/tstl_polyfill"]
+luau = "dist/polyfill"
 
 [graph."jiwonz/greentea_luau@0.2.0 luau".pkg_ref]
 ref_ty = "pesde"
