@@ -134,7 +134,7 @@ if table.find(process.args, "--bundle") then
 	}
 end
 
-for _, runtime in { "luau", "roblox" } do
+for _, runtime in { "luau", "lune", "roblox" } do
 	for polyfill, info in moduleInfo do
 		local dir = pathfs.DirectoryPath.new(dist.path:join(`{runtime}_{polyfill}`)):withDirWritten()
 		local pesdeConfig = pathfs.FilePath.new(dir.path:join("pesde.toml"))
