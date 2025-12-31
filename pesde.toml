@@ -9,7 +9,7 @@ license = "MIT"
 name = "jsdotluau/tstl_polyfill_lune"
 private = true
 repository = "https://github.com/jsdotluau/tstl_polyfill"
-version = "1.33.0-rc.3"
+version = "1.33.2-rc.3"
 workspace_members = ["dist/*"]
 
 [dependencies.pathfs]
